@@ -41,10 +41,10 @@ class YouTubeUploader:
         if not self.metadata_dict[const.VIDEO_DESCRIPTION]:
             self.logger.warning("The video description was not found in a metadata file")
 
-    def upload(self):
+    def upload(self, use_monetization=True):
         try:
             self._login()
-            return self._upload()
+            return self._upload(use_monetization)
         except Exception as e:
             print(e)
             self._quit()
@@ -68,7 +68,7 @@ class YouTubeUploader:
             self._wait()
             self.browser.save_cookies()
 
-    def _upload(self, use_monetization=True) -> (bool, Optional[str]):
+    def _upload(self, use_monetization: bool) -> (bool, Optional[str]):
         self._go_to_upload()
         self._send_video()
         self._set_title()
