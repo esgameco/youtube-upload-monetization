@@ -16,6 +16,14 @@ RADIO_LABEL = 'radioLabel'
 STATUS_CONTAINER = '/html/body/ytcp-uploads-dialog/tp-yt-paper-dialog/div/ytcp-animatable[2]/' \
                    'div/div[1]/ytcp-video-upload-progress/span'
 NOT_MADE_FOR_KIDS_LABEL = 'NOT_MADE_FOR_KIDS'
+
+# Monetization
+MONETIZATION_LABEL = 'm10n-container'
+MONETIZATION_ON_LABEL = 'radio-on'
+MONETIZATION_DONE = 'save-button'
+MONETIZATION_SUITABILITY_LABEL = 'all-none-checkbox'
+PUBLISH_ANYWAY_LABEL = 'publish-button'
+
 NEXT_BUTTON = 'next-button'
 PUBLIC_BUTTON = 'PUBLIC'
 VIDEO_URL_CONTAINER = "//span[@class='video-url-fadeable style-scope ytcp-video-info']"

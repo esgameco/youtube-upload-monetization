@@ -68,7 +68,7 @@ class YouTubeUploader:
             self._wait()
             self.browser.save_cookies()
 
-    def _upload(self) -> (bool, Optional[str]):
+    def _upload(self, use_monetization=True) -> (bool, Optional[str]):
         self._go_to_upload()
         self._send_video()
         self._set_title()
@@ -78,7 +78,15 @@ class YouTubeUploader:
         self._set_tags()
 
         self._click_next()
-        self._click_next()
+
+        # Monetization
+        if use_monetization:
+            self._set_monetization_on()
+            self._click_next()
+
+            self._set_monetization_suitability()
+            self._click_next()
+            self._click_next()
 
         self._set_video_public()
 
@@ -98,6 +106,10 @@ class YouTubeUploader:
 
         done_button.click()
 
+        # Monetization
+        if use_monetization:
+            self._publish_anyway()
+
         self.logger.debug("Published the video with video_id = {}".format(video_id))
         self._wait()
         self.browser.get(const.YOUTUBE_URL)
@@ -113,6 +125,7 @@ class YouTubeUploader:
     def _send_video(self):
         absolute_video_path = str(Path.cwd() / self.video_path)
         self.browser.find(By.XPATH, const.INPUT_FILE_VIDEO).send_keys(absolute_video_path)
+        self._wait()
         self.logger.debug('Attached video {}'.format(self.video_path))
 
     def _set_title(self):
@@ -159,6 +172,35 @@ class YouTubeUploader:
         self._wait()
         tags_input.send_keys(self.metadata_dict[const.VIDEO_TAGS])
         self._wait()
+    
+    def _set_monetization_on(self):
+        monetization_bar = self.browser.find(By.ID, const.MONETIZATION_LABEL)
+        monetization_bar.click()
+        self._wait()
+
+        on_label = self.browser.find(By.ID, const.MONETIZATION_ON_LABEL)
+        on_label.click()
+        self._wait()
+
+        done_button = self.browser.find(By.ID, const.MONETIZATION_DONE)
+        done_button.click()
+        self._wait()
+        self.logger.debug(
+                'The video monetization was set to on')
+
+    def _set_monetization_suitability(self):
+        button = self.browser.find(By.CLASS_NAME, const.MONETIZATION_SUITABILITY_LABEL)
+        button.click()
+        self._wait()
+        self.logger.debug(
+                'The video monetization was set to none of the above')
+    
+    def _publish_anyway(self):
+        button = self.browser.find(By.ID, const.PUBLISH_ANYWAY_LABEL)
+        button.click()
+        self._wait()
+        self.logger.debug(
+                'The video published publicly')
 
     def _click_next(self):
         self.browser.find(By.ID, const.NEXT_BUTTON).click()
@@ -168,6 +210,7 @@ class YouTubeUploader:
     def _set_video_public(self):
         public_main_button = self.browser.find(By.NAME, const.PUBLIC_BUTTON)
         self.browser.find(By.ID, const.RADIO_LABEL, public_main_button).click()
+        self._wait()
         self.logger.debug('Made the video {}'.format(const.PUBLIC_BUTTON))
 
     def _wait_while_upload(self):
