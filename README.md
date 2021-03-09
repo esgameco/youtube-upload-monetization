@@ -1,3 +1,7 @@
+## Differences between this fork and the master
+
+This fork is meant to allow the use of monetization for videos, an ability which isn't included in other forks.
+
 ## About
 Python script to upload videos on YouTube using Selenium
 that allows to upload more than 6<sup>1</sup> videos per day 
