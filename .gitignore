@@ -78,3 +78,6 @@ fabric.properties
 # Geckodriver
 /geckodriver
 geckodriver.log
+
+# Youtube info
+youtube.com.pkl
