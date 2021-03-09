@@ -1,6 +1,6 @@
 ## Differences between this fork and the master
 
-This fork is meant to allow the use of monetization for videos, an ability which isn't included in other forks.
+This fork is meant to allow the use of monetization for videos-- an ability which isn't included in other forks.
 
 ## About
 Python script to upload videos on YouTube using Selenium
