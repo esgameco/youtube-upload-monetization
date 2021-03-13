@@ -52,6 +52,9 @@ class YouTubeUploader:
 
     def _wait(self):
         time.sleep(const.USER_WAITING_TIME + random.uniform(0, 2))
+    
+    def _short_wait(self):
+        time.sleep(random.uniform(0, 1))
 
     def _login(self):
         self.browser.get(const.YOUTUBE_URL)
@@ -71,6 +74,8 @@ class YouTubeUploader:
     def _upload(self, use_monetization: bool) -> (bool, Optional[str]):
         self._go_to_upload()
         self._send_video()
+        self._wait()
+
         self._set_title()
         self._set_description()
         self._set_kids_section()
@@ -87,8 +92,15 @@ class YouTubeUploader:
             self._set_monetization_suitability()
             self._click_next()
             self._click_next()
+        else:
+            self._click_next()
 
-        self._set_video_public()
+        try:
+            self._set_video_public()
+        except Exception:
+            # Deals with copyright 'checks'
+            self._click_next()
+            self._set_video_public()
 
         video_id = self._get_video_id()
 
@@ -105,6 +117,7 @@ class YouTubeUploader:
             return False, None
 
         done_button.click()
+        self._wait()
 
         # Monetization
         if use_monetization:
@@ -125,17 +138,16 @@ class YouTubeUploader:
     def _send_video(self):
         absolute_video_path = str(Path.cwd() / self.video_path)
         self.browser.find(By.XPATH, const.INPUT_FILE_VIDEO).send_keys(absolute_video_path)
-        self._wait()
         self.logger.debug('Attached video {}'.format(self.video_path))
 
     def _set_title(self):
         title_field = self.browser.find(By.ID, const.TEXTBOX, timeout=10)
         title_field.click()
-        self._wait()
+        self._short_wait()
         title_field.clear()
-        self._wait()
+        self._short_wait()
         title_field.send_keys(Keys.COMMAND + 'a')
-        self._wait()
+        self._short_wait()
         title_field.send_keys(self.metadata_dict[const.VIDEO_TITLE])
         self.logger.debug('The video title was set to \"{}\"'.format(self.metadata_dict[const.VIDEO_TITLE]))
         self._wait()
@@ -150,7 +162,7 @@ class YouTubeUploader:
             self._wait()
             description_field.clear()
             self._wait()
-            description_field.send_keys(self.metadata_dict[const.VIDEO_DESCRIPTION])
+            description_field.send_keys(self.metadata_dict[const.VIDEO_DESCRIPTION].replace('\\n', u'\ue007'))
             self.logger.debug(
                 'The video description was set to \"{}\"'.format(self.metadata_dict[const.VIDEO_DESCRIPTION]))
 

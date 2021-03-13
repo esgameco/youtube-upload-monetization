@@ -1,6 +1,17 @@
+## Installing geckdriver
+
+```
+wget https://github.com/mozilla/geckodriver/releases/download/v0.29.0/geckodriver-v0.29.0-linux64.tar.gz
+tar -zxvf geckodriver-v0.29.0-linux64.tar.gz
+rm geckodriver-v0.29.0-linux64.tar.gz
+mv geckodriver /usr/local/bin
+```
+
 ## Differences between this fork and the master
 
 This fork is meant to allow the use of monetization for videos-- an ability which isn't included in other forks.
+
+## --------------- From Base Repo ---------------
 
 ## About
 Python script to upload videos on YouTube using Selenium
