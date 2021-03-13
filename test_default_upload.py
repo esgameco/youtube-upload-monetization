@@ -1,5 +1,5 @@
 import os
-from youtube_uploader_selenium import YouTubeUploader
+from youtube_upload_monetization import YouTubeUploader
 from selenium_firefox.firefox import Firefox
 from pathlib import Path
 
