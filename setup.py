@@ -6,6 +6,6 @@ setup(
    description='Uploads videos to youtube through the use of selenium',
    author='Chance Vodnoy',
    author_email='chancevodnoy129@gmail.com',
-   packages=['youtube-upload-monetization'],
+   packages=['youtube_upload_monetization'],
    install_requires=[]
 )
